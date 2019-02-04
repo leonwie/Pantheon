@@ -3,7 +3,7 @@ import time
 from test import read_data
 
 def on_message(client, userdata, message):
-	print("Received message: {} on topic {}" .format(time.clock_gettime(),time.clock_gettime()))
+	print("Received message")
 
 
 client = mqtt.Client()
@@ -21,6 +21,6 @@ client.subscribe("IC.embedded/Pantheon/#")
 
 while True:
 	sensordata=read_data
-	client.publish(sensordata)
-    client.loop()
-    time.sleep(2)
+	client.publish("IC.embedded/Pantheon/test",sensordata)
+	client.loop()
+	time.sleep(2)
