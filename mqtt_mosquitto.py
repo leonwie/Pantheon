@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
+from test import read_data
 
 def on_message(client, userdata, message):
 	print("Received message: {} on topic {}" .format(time.clock_gettime(),time.clock_gettime()))
@@ -19,5 +20,7 @@ client.on_message = on_message
 client.subscribe("IC.embedded/Pantheon/#")
 
 while True:
+	sensordata=read_data
+	client.publish(sensordata)
     client.loop()
-    time.sleep(1)
+    time.sleep(2)
