@@ -4,11 +4,14 @@ import time
 def on_message(client, userdata, message):
 	print("Received message: {} on topic {}" .format(time.clock_gettime(),time.clock_gettime()))
 
-client = mqtt.Client()
-client.connect("test.mosquitto.org",port=1883)
-#client.publish("IC.embedded/Pantheon/test","Connected to raspberry")
+client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="client.key")
 
-#mqtt.error_string(RETURN_CODE)
+client = mqtt.Client()
+client.connect("test.mosquitto.org",port=8884)
+
+client.publish("IC.embedded/Pantheon/test","Connected to raspberry")
+
+#mqtt.error_string(MSG_INFO.rc) #MSG_INFO is result of publish()
 
 client.on_message = on_message
 
