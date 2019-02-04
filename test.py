@@ -26,7 +26,7 @@ def read_data:
     data = bus.read_i2c_block_data(DEVICE_ADDRESS, CONV_POINTER, 2)
     value = data[0] * 256 + data[1]
     if value > 32767:
-	       value -= 65535
+	value -= 65535
     voltage = 0.000125*value + 0.62 # scaling factor to convert to actual voltage
     #ms = -(25/3111111111)*math.sqrt(24888888888000000*voltage-11462666687111111) - 783333325/3111111111
     return voltage
