@@ -21,6 +21,6 @@ client.subscribe("IC.embedded/Pantheon/#")
 
 while True:
 	sensordata=read_data
-	client.publish(sensordata)
-    client.loop()
-    time.sleep(2)
+	client.publish("IC.embedded/Pantheon/test",sensordata)
+	client.loop()
+	time.sleep(2)
