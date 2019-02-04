@@ -22,7 +22,7 @@ bus.write_i2c_block_data(DEVICE_ADDRESS, CONFIG_POINTER, CONFIG_DATA) #write the
 #    print(voltage)
 #    time.sleep(0.05)
 
-def read_data:
+def read_data():
     data = bus.read_i2c_block_data(DEVICE_ADDRESS, CONV_POINTER, 2)
     value = data[0] * 256 + data[1]
     if value > 32767:
