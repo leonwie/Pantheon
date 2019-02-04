@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import time
 
 def on_message(client, userdata, message):
-	print("Received message: {} on topic {}" .format(time.clock_gettime(),time.clock_gettime()))
+	print("Received message")
 
 
 client = mqtt.Client()
