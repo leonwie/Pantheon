@@ -20,7 +20,7 @@ client.on_message = on_message
 client.subscribe("IC.embedded/Pantheon/#")
 
 while True:
-	sensordata=read_data
+	sensordata=read_data()
 	client.publish("IC.embedded/Pantheon/test",str(sensordata))
 	client.loop()
 	time.sleep(2)

@@ -29,4 +29,5 @@ def read_data():
         value -= 65535
     voltage = 0.000125*value + 0.62 # scaling factor to convert to actual voltage
     #ms = -(25/3111111111)*math.sqrt(24888888888000000*voltage-11462666687111111) - 783333325/3111111111
+    print(voltage)
     return voltage
