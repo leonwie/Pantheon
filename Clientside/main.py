@@ -1,10 +1,18 @@
 import paho.mqtt.client as mqtt
 import time
-from database import  	
+from database import send_to_cloud
 
 def on_message(client, userdata, message):
 	print("Received message on computer ",message.payload)
 	print("Typeof",type(message.payload))
+	if(message.topic=="IC.embedded/Pantheon/Measurement"):
+		send=str(message.payload)
+		data = {
+	    	"Time:":time.ctime(),
+	    	"Downforce":send[2:len(send)-1]
+			}
+		print(data)
+		send_to_cloud(data)
 
 
 client = mqtt.Client()
@@ -19,11 +27,6 @@ client.publish("IC.embedded/Pantheon/test","Connected to computer")
 client.on_message = on_message
 
 client.subscribe("IC.embedded/Pantheon/#")
-
-data = {
-    "Time:":"15:01",
-    "Downforce":"8.5555"
-}
 
 while True:
 	client.loop()
