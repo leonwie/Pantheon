@@ -17,30 +17,26 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 
-auth = firebase.auth()
+#auth = firebase.auth()
 
 #email = input('Please enter your email\n')
 #password = input('Please enter your password\n')
 
-email = "lw2316@ic.ac.uk"
-password = "123456"
+#email = "lw2316@ic.ac.uk"
+#password = "123456"
 
 #user = auth.create_user_with_email_and_password(email, password)
 
-user = auth.sign_in_with_email_and_password(email, password)
+#user = auth.sign_in_with_email_and_password(email, password)
 
 #auth.get_account_info(user['idToken'])
 
 db = firebase.database()
 
-#db.child("Downforces").push({"Time:":"12:00","Downforce:":"8.555"})
-#db.child("Downforces").child("Downforce:").update({"Downfore:":"13.5"})
-
-# data to save
-#lana = {"name": "Lana Kane", "agency": "Figgis Agency"}
-#db.child("agents").child("Lana").set(lana, user['idToken'])
 # Pass the user's idToken to the push method
 def send_to_cloud(data):
-    results = db.child("Downforces").push(data, user['idToken'])
+    results = db.child("Downforces").push(data)
+def update_cloud(data):
+    results = db.child("Downforce").update(data)
 
 #https://www.youtube.com/watch?v=aojoWWMN1r0

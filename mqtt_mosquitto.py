@@ -3,6 +3,7 @@ import time
 from test import read_data
 
 def on_message(client, userdata, message):
+	print(message)
 	print("Received message")
 
 
@@ -17,7 +18,7 @@ client.publish("IC.embedded/Pantheon/test","Connected to raspberry")
 
 client.on_message = on_message
 
-client.subscribe("IC.embedded/Pantheon/#")
+client.subscribe("IC.embedded/Pantheon/run")
 
 while True:
 	sensordata=read_data()
