@@ -17,10 +17,15 @@ def on_message(client, userdata, message):
 client = mqtt.Client()
 
 client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="client.key")
-while(client.connect("test.mosquitto.org", port=8884)!=0):
-	print("Error connection unsuccessful")
-	print(mqtt.error_string(RETURN_CODE))
+def connecting():
+	try:
+		client.connect("test.mosquitto.org", port=8884)
+	except:
+		print("Error connection unsuccessful")
+		#print(mqtt.error_string(RETURN_CODE))
+		connecting()
 
+connecting()
 
 print("Connection successful")
 
