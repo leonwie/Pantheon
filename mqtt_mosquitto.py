@@ -2,18 +2,18 @@ import paho.mqtt.client as mqtt
 import time
 from test import read_data
 
-var run=True;
+run=True
 
 def on_message(client, userdata, message):
 	print(message.payload)
 	print("Received message")
-	if(message.payload="b'on'"):
+	global run
+	if(message.payload == b'on'):
 		print("MESSAGE ON")
-		run=True;
-	if(message.payload="b'off'"):
+		run=True
+	if(message.payload == b'off'):
 		print("MESSAGE OFF")
-		run=False;
-
+		run=False
 client = mqtt.Client()
 
 client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="client.key")
@@ -31,8 +31,9 @@ client.on_message = on_message
 
 client.subscribe("IC.embedded/Pantheon/run")
 
-while (run):
-	sensordata=read_data()
-	client.publish("IC.embedded/Pantheon/Measurement",str(sensordata))
+while True:
+	if (run==True):
+		sensordata=read_data()
+		client.publish("IC.embedded/Pantheon/Measurement",str(sensordata))
 	client.loop()
 	time.sleep(2)
