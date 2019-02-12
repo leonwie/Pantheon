@@ -41,6 +41,7 @@ while True:
 	if (run==True):
 		airflowsensordata=read_airflow_data()
 		pressuresensordata=read_pressure_data()
-		client.publish("IC.embedded/Pantheon/Measurement",str(airflowsensordata))
+		client.publish("IC.embedded/Pantheon/Measurement/Airflow",str(pressuresensordata))
+		client.publish("IC.embedded/Pantheon/Measurement/Airflow",str(airflowsensordata))
 	client.loop()
 	time.sleep(2)

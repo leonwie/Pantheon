@@ -29,7 +29,7 @@ def on_message(client, userdata, message):
     print("Typeof",type(message.payload))
     print("Message topic: ",message.topic)
 	#Check for message topic
-    if(message.topic=="IC.embedded/Pantheon/Measurement"):
+    if(message.topic=="IC.embedded/Pantheon/Measurement/Airflow"):
         send=str(message.payload)
 		#create dataobject
         data1 = {
@@ -43,6 +43,9 @@ def on_message(client, userdata, message):
 		#send the data to the cloud
         send_to_cloud(data1)
         update_cloud(data2)
+    if(message.topic=="IC.embedded/Pantheon/Measurement/Airpressure"):
+        print(str(message.payload))
+
 
 #initialize the client
 client = mqtt.Client()
