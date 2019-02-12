@@ -55,15 +55,15 @@ client.on_message = on_message
 
 #client.subscribe("IC.embedded/Pantheon/#")
 
-#def stream_handler(message):
-#    if(message["data"]=='On'):
-#        client.publish("IC.embedded/Pantheon/run","On")
-#        print("On")
-#    if(message["data"]=='Off'):
-#        client.publish("IC.embedded/Pantheon/run","Off")
-#        print("Off")
+def stream_handler(message):
+    if(message["data"]=='on'):
+        client.publish("IC.embedded/Pantheon/run","on")
+        print("On")
+    if(message["data"]=='off'):
+        client.publish("IC.embedded/Pantheon/run","off")
+        print("Off")
 
-#my_stream = db.child("Reading").stream(stream_handler)
+my_stream = db.child("Reading").stream(stream_handler)
 
 def send_to_cloud(data):
     results = db.child("Downforces").push(data)
@@ -74,4 +74,4 @@ client.loop_forever()
 #endless loop
 #while True:
 #    client.loop()
-#    time.sleep(2)
+#    time.sleep(1)
