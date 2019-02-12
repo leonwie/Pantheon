@@ -44,7 +44,7 @@ def on_message(client, userdata, message):
         send_to_cloud(data1)
         update_cloud(data2)
     if(message.topic=="IC.embedded/Pantheon/Measurement/Airpressure"):
-        print(str(message.payload))
+        print("Airpressure")
 
 
 #initialize the client
