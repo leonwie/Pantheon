@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
-from test import read_data
+from i2c_reads import read_airflow_data
+from i2c_reads import read_pressure_data
 
 run=True
 
@@ -38,7 +39,8 @@ client.subscribe("IC.embedded/Pantheon/run")
 
 while True:
 	if (run==True):
-		sensordata=read_data()
-		client.publish("IC.embedded/Pantheon/Measurement",str(sensordata))
+		airflowsensordata=read_airflow_data()
+		pressuresensordata=read_pressure_data()
+		client.publish("IC.embedded/Pantheon/Measurement",str(airflowsensordata))
 	client.loop()
 	time.sleep(2)
