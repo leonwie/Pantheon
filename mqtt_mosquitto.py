@@ -50,8 +50,8 @@ while True:
 	if (run==True):
 		airflowsensordata=read_airflow_data()
 		pressuresensordata, ctempdata = read_pressure_and_temp_data()
-		client.publish("IC.embedded/Pantheon/Measurement/Airpressure",str(pressuresensordata))
-		client.publish("IC.embedded/Pantheon/Measurement/Airflow",str(airflowsensordata))
-		client.publish("IC.embedded/Pantheon/Measurement/cTempData",str(ctempdata))
+		concatData = str(ctempdata) + ',' + str(pressuresensordata) + ',' + str(airflowsensordata)
+		print(concatData)
+		client.publish("IC.embedded/Pantheon/Measurement/concatData",concatData)
 	client.loop()
 	time.sleep(2)
