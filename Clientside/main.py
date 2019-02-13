@@ -49,7 +49,7 @@ def on_message(client, userdata, message):
     #print("Sensordata: ")
     tempk = temperature + 273.15
     airdensity = tempk / (287.05 * airpressure * 100)
-    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow
+    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow*100
     downforce_add = {
     "Time:":time.ctime(),
     "Downforce":str(downforce)
@@ -73,7 +73,7 @@ def on_message(client, userdata, message):
 
 def connecting():
 	try:
-		#client.connect("146.169.222.168", port=1883)
+		client.connect("test.mosquitto.org", port=1883)
 	except:
 		print("Error connection unsuccessful")
 		connecting()
