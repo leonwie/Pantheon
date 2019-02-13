@@ -49,8 +49,9 @@ client.on_disconnect = on_disconnect
 while True:
 	if (run==True):
 		airflowsensordata=read_airflow_data()
-		pressuresensordata=read_pressure_data()
+		pressuresensordata, ctempdata = read_pressure_and_temp_data()
 		client.publish("IC.embedded/Pantheon/Measurement/Airpressure",str(pressuresensordata))
 		client.publish("IC.embedded/Pantheon/Measurement/Airflow",str(airflowsensordata))
+		client.publish("IC.embedded/Pantheon/Measurement/cTempData",str(ctempdata))
 	client.loop()
 	time.sleep(2)
