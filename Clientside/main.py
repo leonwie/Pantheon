@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import pyrebase
+import sys
 
 #wing info
 WINGSPAN = 10
@@ -34,36 +35,45 @@ def on_connect(client, userdata, flags, rc):
 #If a message is received
 def on_message(client, userdata, message):
     print("Received message on computer ",message.payload)
-    print("Typeof",type(message.payload))
     print("Message topic: ",message.topic)
-	#Check for message topic
-    if(message.topic=="IC.embedded/Pantheon/Measurement/Airflow"):
-        airflow=double(message.payload)
-    if(message.topic=="IC.embedded/Pantheon/Measurement/Airpressure"):
-        airpressure=double(message.payload)
-    if(message.topic=="IC.embedded/Pantheon/Measurement/cTempData"):
-        tempc=double(message.payload)
-    #create dataobject
-    tempk = tempc + 273.15
-    airdensity = airpressure / (287.05 * airpressure * 100)
-    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow
 
-    data1 = {
+	#Check for message topic
+    if(message.topic=="IC.embedded/Pantheon/Measurement/concatData"):
+        print("Measurement received")
+        sensordata=message.payload
+        sensordata_dec=sensordata.decode("utf-8")
+        sensorvalues=sensordata_dec.split(",")
+        temperature = float(sensorvalues[0])
+        airpressure = float(sensorvalues[1])
+        airflow = float(sensorvalues[2])
+    #print("Sensordata: ")
+    tempk = temperature + 273.15
+    airdensity = tempk / (287.05 * airpressure * 100)
+    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow
+    downforce_add = {
     "Time:":time.ctime(),
-    "Downforce":downforce[2:len(send)-1]
+    "Downforce":str(downforce)
     }
-    data2 = {
-    "Downforce":downforce[2:len(send)-1]
+    downforce_update = {
+    "Downforce":str(downforce)
     }
-    print(data1)
+    airpressure_update = {
+    "Pressure":str(airpressure)
+    }
+    temperature_update = {
+    "Temperature":str(temperature)
+    }
+    print("Sending to cloud")
     #send the data to the cloud
-    send_to_cloud(data1)
-    update_cloud(data2)
+    send_to_cloud(downforce_add)
+    update_cloud(downforce_update, "Downforce")
+    update_cloud(airpressure_update, "Pressure")
+    update_cloud(temperature_update, "Temperature")
 
 
 def connecting():
 	try:
-		client.connect("test.mosquitto.org", port=1883)
+		#client.connect("146.169.222.168", port=1883)
 	except:
 		print("Error connection unsuccessful")
 		connecting()
@@ -88,9 +98,11 @@ def stream_handler(message):
 my_stream = db.child("Reading/Value").stream(stream_handler)
 
 def send_to_cloud(data):
+    print("Data: ", data)
     results = db.child("Downforces").push(data)
-def update_cloud(data):
-    results = db.child("Downforce").update(data)
+def update_cloud(data, topic):
+    results = db.child(topic).update(data)
+
 client.loop_forever()
 
 #endless loop
