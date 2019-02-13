@@ -114,7 +114,8 @@ def read_airflow_data():
     airflowvalue = airflow_data[0] * 256 + airflow_data[1]
     if airflowvalue > 32767:
         airflowvalue -= 65535
-    airflowvoltage = 0.0053*((airflowvalue)^4) + 0.083*((airflowvalue)^3) + 0.3256*((airflowvalue)^2) + 0.0467*(airflowvalue) + 0.5 # scaling factor to convert to actual voltage
+    airflowvoltage = (-0.3269/0.127) + (math.sqrt((0.254*airflowvalue) - 0.05) / 0.127)
+    #airflowvoltage = 0.0053*((airflowvalue)^4) + 0.083*((airflowvalue)^3) + 0.3256*((airflowvalue)^2) + 0.0467*(airflowvalue) + 0.5 # scaling factor to convert to actual voltage
     #ms = -(25/3111111111)*math.sqrt(24888888888000000*voltage-11462666687111111) - 783333325/3111111111
 
     pressure_data = bus.read_i2c_block_data(PRESSURE_ADDRESS, 0x88, 24)
