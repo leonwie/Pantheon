@@ -16,8 +16,8 @@ db = firebase.database()
 
 #If connected to mqtt
 def on_connect(client, userdata, flags, rc):
+    print("Hello")
     print("Connected with result code "+str(rc))
-
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe("IC.embedded/Pantheon/#")
@@ -47,16 +47,21 @@ def on_message(client, userdata, message):
         print("Airpressure")
 
 
+def connecting():
+	try:
+		client.connect("test.mosquitto.org", port=1883)
+	except:
+		print("Error connection unsuccessful")
+		connecting()
+
 #initialize the client
 client = mqtt.Client()
+connecting()
+print("Connection successful")
 client.on_connect = on_connect
-client.connect("test.mosquitto.org",port=1883)
-client.publish("IC.embedded/Pantheon/test","Connected to computer")
-#print(hello)
-
 client.on_message = on_message
 
-#client.subscribe("IC.embedded/Pantheon/#")
+client.subscribe("IC.embedded/Pantheon/#")
 
 def stream_handler(message):
     if(message["data"]==1):
