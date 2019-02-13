@@ -16,12 +16,15 @@ db = firebase.database()
 
 #If connected to mqtt
 def on_connect(client, userdata, flags, rc):
-    print("Hello")
-    print("Connected with result code "+str(rc))
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
-    client.subscribe("IC.embedded/Pantheon/#")
-    client.publish("IC.embedded/Pantheon/test","Connected to computer2")
+    if rc == 0:
+        print("Hello")
+        print("Connected with result code "+str(rc))
+        # Subscribing in on_connect() means that if we lose the connection and
+        # reconnect then subscriptions will be renewed.
+        client.subscribe("IC.embedded/Pantheon/#")
+        client.publish("IC.embedded/Pantheon/test","Connected to computer2")
+    else:
+        print("Connection failed")
 
 #If a message is received
 def on_message(client, userdata, message):
