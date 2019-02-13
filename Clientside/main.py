@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import pyrebase
+import sys
 
 config = {
     "apiKey": "AIzaSyCAnkKBia6Jd8REycaDryC2AY5Jj_NQBpQ",
@@ -80,6 +81,8 @@ def send_to_cloud(data):
     results = db.child("Downforces").push(data)
 def update_cloud(data):
     results = db.child("Downforce").update(data)
+
+
 client.loop_forever()
 
 #endless loop
