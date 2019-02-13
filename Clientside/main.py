@@ -73,7 +73,7 @@ def on_message(client, userdata, message):
 
 def connecting():
 	try:
-		client.connect("146.169.222.168", port=1883)
+		#client.connect("146.169.222.168", port=1883)
 	except:
 		print("Error connection unsuccessful")
 		connecting()
