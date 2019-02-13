@@ -1,12 +1,12 @@
 import paho.mqtt.client as mqtt
 import time
 from i2c_reads import read_airflow_data
-from i2c_reads import read_pressure_data
+from i2c_reads import read_pressure_and_temp_data
 
 run=True
 
 def on_connect(client, userdata, flags, rc):
-	.subscribe("IC.embedded/Pantheon/run")
+	client.subscribe("IC.embedded/Pantheon/run")
 
 def on_disconnect(client, userdata, rc):
 	print("disconnected with rtn code [%d]"% (rc))
