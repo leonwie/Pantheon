@@ -37,6 +37,10 @@ def on_message(client, userdata, message):
     print("Received message on computer ",message.payload)
     print("Typeof",type(message.payload))
     print("Message topic: ",message.topic)
+
+    airflow_float = 0;
+    airpressure_float =0;
+    tempc_float =0;
 	#Check for message topic
     if(message.topic=="IC.embedded/Pantheon/Measurement/Airflow"):
         airflow=message.payload
@@ -82,7 +86,7 @@ def on_message(client, userdata, message):
 
 def connecting():
 	try:
-		client.connect("test.mosquitto.org", port=1883)
+		client.connect("146.169.222.168", port=1883)
 	except:
 		print("Error connection unsuccessful")
 		connecting()
