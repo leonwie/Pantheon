@@ -23,7 +23,7 @@ bus.write_i2c_block_data(AIRFLOW_ADDRESS, AIRFLOW_CONFIG_POINTER, AIRFLOW_CONFIG
 #    print(voltage)
 #    time.sleep(0.05)
 
-def read_pressure_data():
+def read_pressure_and_temp_data():
     # BMP280 address, 0x77(118)
     # Read data back from 0x88(136), 24 bytes
     b1 = bus.read_i2c_block_data(0x77, 0x88, 24)
@@ -107,7 +107,7 @@ def read_pressure_data():
     var2 = p * (dig_P8) / 32768.0
     pressure = (p + (var1 + var2 + (dig_P7)) / 16.0) / 100
 
-    return pressure
+    return pressure, cTemp
 
 def read_airflow_data():
     airflow_data = bus.read_i2c_block_data(AIRFLOW_ADDRESS, AIRFLOW_CONV_POINTER, 2)

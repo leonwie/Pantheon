@@ -2,6 +2,11 @@ import paho.mqtt.client as mqtt
 import time
 import pyrebase
 
+#wing info
+WINGSPAN = 10
+CHORD = 10
+LIFTCOEFFICIENT = 10
+
 config = {
     "apiKey": "AIzaSyCAnkKBia6Jd8REycaDryC2AY5Jj_NQBpQ",
     "authDomain": "formula-1-7a0c8.firebaseapp.com",
@@ -33,21 +38,27 @@ def on_message(client, userdata, message):
     print("Message topic: ",message.topic)
 	#Check for message topic
     if(message.topic=="IC.embedded/Pantheon/Measurement/Airflow"):
-        send=str(message.payload)
-		#create dataobject
-        data1 = {
-        "Time:":time.ctime(),
-        "Downforce":send[2:len(send)-1]
-		}
-        data2 = {
-        "Downforce":send[2:len(send)-1]
-        }
-        print(data1)
-		#send the data to the cloud
-        send_to_cloud(data1)
-        update_cloud(data2)
+        airflow=double(message.payload)
     if(message.topic=="IC.embedded/Pantheon/Measurement/Airpressure"):
-        print("Airpressure")
+        airpressure=double(message.payload)
+    if(message.topic=="IC.embedded/Pantheon/Measurement/cTempData"):
+        tempc=double(message.payload)
+    #create dataobject
+    tempk = tempc + 273.15
+    airdensity = airpressure / (287.05 * airpressure * 100)
+    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow
+
+    data1 = {
+    "Time:":time.ctime(),
+    "Downforce":downforce[2:len(send)-1]
+    }
+    data2 = {
+    "Downforce":downforce[2:len(send)-1]
+    }
+    print(data1)
+    #send the data to the cloud
+    send_to_cloud(data1)
+    update_cloud(data2)
 
 
 def connecting():
