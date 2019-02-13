@@ -35,53 +35,40 @@ def on_connect(client, userdata, flags, rc):
 #If a message is received
 def on_message(client, userdata, message):
     print("Received message on computer ",message.payload)
-    print("Typeof",type(message.payload))
     print("Message topic: ",message.topic)
 
-    airflow_float = 0;
-    airpressure_float =0;
-    tempc_float =0;
 	#Check for message topic
-    if(message.topic=="IC.embedded/Pantheon/Measurement/Airflow"):
-        airflow=message.payload
-        print(airflow)
-        airflow_float=float(airflow.decode("utf-8"))
-        print("airflow")
-        print(airflow_float)
-    if(message.topic=="IC.embedded/Pantheon/Measurement/Airpressure"):
-        airpressure=message.payload
-        print(airpressure)
-        airpressure_float=float(airpressure.decode("utf-8"))
-        print("airpressure")
-        print(airpressure_float)
-    if(message.topic=="IC.embedded/Pantheon/Measurement/cTempData"):
-        tempc=message.payload
-        tempc_float=float(tempc.decode("utf-8"))
-        print("Temperature Data:")
-        print("HelloThere")
-    #create dataobject
-    print("hello")
-    print(tempc_float)
-    print(airpressure_float)
-    print(airflow_float)
-    tempk = tempc_float + 273.15
-    airdensity = tempk / (287.05 * airpressure_float * 100)
-    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow_float
-    print("hello2")
-    print(tempk)
-    print(airdensity)
-    print(downforce)
-    data1 = {
+    if(message.topic=="IC.embedded/Pantheon/Measurement/concatData"):
+        print("Measurement received")
+        sensordata=message.payload
+        sensordata_dec=sensordata.decode("utf-8")
+        sensorvalues=sensordata_dec.split(",")
+        temperature = float(sensorvalues[0])
+        airpressure = float(sensorvalues[1])
+        airflow = float(sensorvalues[2])
+    #print("Sensordata: ")
+    tempk = temperature + 273.15
+    airdensity = tempk / (287.05 * airpressure * 100)
+    downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow
+    downforce_add = {
     "Time:":time.ctime(),
-    "Downforce":downforce[2:len(send)-1]
+    "Downforce":str(downforce)
     }
-    data2 = {
-    "Downforce":downforce[2:len(send)-1]
+    downforce_update = {
+    "Downforce":str(downforce)
     }
-    print(data1)
+    airpressure_update = {
+    "Pressure":str(airpressure)
+    }
+    temperature_update = {
+    "Temperature":str(temperature)
+    }
+    print("Sending to cloud")
     #send the data to the cloud
-    send_to_cloud(data1)
-    update_cloud(data2)
+    send_to_cloud(downforce_add)
+    update_cloud(downforce_update, "Downforce")
+    update_cloud(airpressure_update, "Pressure")
+    update_cloud(temperature_update, "Temperature")
 
 
 def connecting():
@@ -111,9 +98,10 @@ def stream_handler(message):
 my_stream = db.child("Reading/Value").stream(stream_handler)
 
 def send_to_cloud(data):
+    print("Data: ", data)
     results = db.child("Downforces").push(data)
-def update_cloud(data):
-    results = db.child("Downforce").update(data)
+def update_cloud(data, topic):
+    results = db.child(topic).update(data)
 
 client.loop_forever()
 
