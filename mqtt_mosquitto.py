@@ -25,11 +25,11 @@ def on_message(client, userdata, message):
 
 client = mqtt.Client()
 
-client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="client.key")
+#client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="client.key")
 
 def connecting():
 	try:
-		client.connect("test.mosquitto.org", port=8884)
+		client.connect("146.169.222.168", port=1883)
 	except:
 		print("Error connection unsuccessful")
 		#print(mqtt.error_string(RETURN_CODE))
@@ -50,8 +50,8 @@ while True:
 	if (run==True):
 		airflowsensordata=read_airflow_data()
 		pressuresensordata, ctempdata = read_pressure_and_temp_data()
-		client.publish("IC.embedded/Pantheon/Measurement/Airpressure",str(pressuresensordata))
-		client.publish("IC.embedded/Pantheon/Measurement/Airflow",str(airflowsensordata))
-		client.publish("IC.embedded/Pantheon/Measurement/cTempData",str(ctempdata))
+		concatData = str(ctempdata) + ',' + str(pressuresensordata) + ',' + str(airflowsensordata)
+		print(concatData)
+		client.publish("IC.embedded/Pantheon/Measurement/concatData",concatData)
 	client.loop()
 	time.sleep(2)
