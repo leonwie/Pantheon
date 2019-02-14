@@ -1,0 +1,3 @@
+[submodule "liveGraph"]
+	path = liveGraph
+	url = https://github.com/leonwie/liveGraph.git
