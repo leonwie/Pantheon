@@ -29,7 +29,7 @@ client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="clie
 
 def connecting():
 	try:
-		client.connect("test.mosquitto.org", port=8884)
+		client.connect("146.169.222.168", port=8884)
 	except:
 		print("Error connection unsuccessful")
 		#print(mqtt.error_string(RETURN_CODE))

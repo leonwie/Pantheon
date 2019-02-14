@@ -52,16 +52,16 @@ def on_message(client, userdata, message):
     downforce = 0.5 * WINGSPAN * CHORD * LIFTCOEFFICIENT * airdensity * airflow*100
     downforce_add = {
     "Time:":time.ctime(),
-    "Downforce":str(downforce)
+    "Downforce":str(round(downforce,3))
     }
     downforce_update = {
-    "Downforce":str(downforce)
+    "Downforce":str(round(downforce,3))
     }
     airpressure_update = {
-    "Pressure":str(airpressure)
+    "Pressure":str(round(airpressure,3))
     }
     temperature_update = {
-    "Temperature":str(temperature)
+    "Temperature":str(round(temperature,3))
     }
     print("Sending to cloud")
     #send the data to the cloud
@@ -73,7 +73,7 @@ def on_message(client, userdata, message):
 
 def connecting():
 	try:
-		client.connect("test.mosquitto.org", port=1883)
+		client.connect("146.169.222.168", port=1883)
 	except:
 		print("Error connection unsuccessful")
 		connecting()
