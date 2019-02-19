@@ -25,6 +25,8 @@ const ds = new ListView.DataSource({
 })
 
 class DriversScreen extends Component {
+  //Attempt to fetch drivers from api 
+  // If this fails manually render all assets from assets folder
   constructor(props) {
     super(props)
 
@@ -39,7 +41,7 @@ class DriversScreen extends Component {
     this.renderRow = this.renderRow.bind(this)
   }
 
-
+  //attempt to fetch drivers from api
   getDrivers() {
     api.getDriverStandings()
       .then((driversStandings) => {
@@ -67,6 +69,7 @@ class DriversScreen extends Component {
       })
   }
 
+  //attempt to fetch from asyncstorage
   componentWillMount() {
     AsyncStorage.getItem('driversStandings')
       .then((value) => {
@@ -90,6 +93,8 @@ class DriversScreen extends Component {
       })
   }
 
+  //if we are still waiting for the api or storage display a loading symbol
+  //if this fails manually render all assets
   render() {
     const { routeName } = this.props.navigation.state
     const { isLoading, drivers, error } = this.state

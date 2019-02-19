@@ -17,7 +17,6 @@ import DownForce from './DownForce'
 import MasterSwitch from './MasterSwitch'
 import ScalableText from 'react-native-text'
 import moment from 'moment'
-
 import AnalyticsHeader from './AnalyticsHeader'
 import api from '../Utils/api'
 import ErrorPage from '../Components/ErrorPage'
