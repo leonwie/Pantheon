@@ -7,19 +7,21 @@ class Reading3 extends Component {
     super(props)
 
     this.state = {
-      downforce: 'On'
+      text: 'On'
     }
     
     this._handleSwitch = this._handleSwitch.bind(this)
   }
-
+  //when the component is tapped by the user this method is trigerred 
+  //this publishes the value to firebase and sets the state of text 
+  //set state is used to rerender on touch
   _handleSwitch() {
     if (this.state.downforce=='On') {
       firebase.database().ref('Reading/').set({
         Value: 0
       })
       this.setState({
-        downforce: 'Off'
+        text: 'Off'
         
       }) 
     }
@@ -28,7 +30,7 @@ class Reading3 extends Component {
         Value: 1
       })
       this.setState({
-        downforce: 'On'
+        text: 'On'
       }) 
     }
   }

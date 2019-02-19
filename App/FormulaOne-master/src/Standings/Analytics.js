@@ -39,7 +39,7 @@ class Analytics extends Component {
     // Bind internal functions, necessary in ES6 + React
     this.renderRow = this.renderRow.bind(this)
   }
-  
+  //attempt to fetch driver stats and info
   getDrivers() {
     api.getDriverStandings()
       .then((driversStandings) => {
@@ -66,7 +66,8 @@ class Analytics extends Component {
         })
       })
   }
-
+  
+  //attempt to fetch driver stats and info
   componentWillMount() {
     
     firebase.database().ref('Reading/').set({
@@ -95,7 +96,7 @@ class Analytics extends Component {
         this.getDrivers()
       })
   }
-
+//manual rendering 
   render() {
     const { routeName } = this.props.navigation.state
     const { isLoading, drivers, error } = this.state

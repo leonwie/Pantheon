@@ -11,6 +11,10 @@ class Reading2 extends Component {
     }
       
   }
+    //fetch data from firebase on component mount 
+  //ensures that temperature value is fetched before component is rendered 
+  //.on is used to ensure that we are listening for any changes
+  //this.setstate is used to rerender the component on statechange
   componentDidMount() {
     firebase.database().ref('/Temperature/Value').on('value', snapshot => {
       this.setState({downforce: snapshot.val()})
