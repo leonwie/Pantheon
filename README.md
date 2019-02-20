@@ -30,3 +30,5 @@ Subscribe to topic: "IC.embedded/Pantheon/#"
 
 You are good to go.
 
+## App
+The application uses firebase's realtime database to fetch data 
