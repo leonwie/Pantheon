@@ -31,4 +31,8 @@ Subscribe to topic: "IC.embedded/Pantheon/#"
 You are good to go.
 
 ## App
-The application uses firebase's realtime database to fetch data 
+This application has been built using React Native - allowing it to be run on any iOS or Android Device. By expanding on an open source template this application adds firebase's realtime database to fetch data from the sensor and display it to the user. Screenshots can be seen below:- 
+
+![alt text](https://raw.githubusercontent.com//leonwie/Pantheon/blob/master/readmeimages/Cal.png)
+
+
