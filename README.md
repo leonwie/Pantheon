@@ -3,7 +3,7 @@
 ## Four main files:
 * mqtt_subscriber.py  -- Run on the Raspberry pi
 * Clientside\main.py -- Run on any laptop or phone
-* 
+* App/PantheonDown -- Run on iOS simulator using XCode
 * livegraph\app.js -- Run on nodejs or access on heroku: https://desolate-brook-74012.herokuapp.com/?fbclid=IwAR0D4lOiHnYv2-wT4iuwhscy0E0LoMmwT2zaIWh53WWcjRW9edovi5sJvgM
 
 ## Explaining on the raspberry pi:
@@ -33,6 +33,6 @@ You are good to go.
 ## App
 This application has been built using React Native - allowing it to be run on any iOS or Android Device. By expanding on an open source template this application adds firebase's realtime database to fetch data from the sensor and display it to the user. Screenshots can be seen below:- 
 
-![alt text](https://raw.githubusercontent.com//leonwie/Pantheon/blob/master/readmeimages/Cal.png)
+![alt text](https://github.com/leonwie/Pantheon/blob/master/readmeimages/Data.png)
 
 
